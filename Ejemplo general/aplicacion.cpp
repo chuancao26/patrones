@@ -111,7 +111,7 @@ public:
         return new Proyectista(*this);
     }
     void trabajar() const {
-        cout << "El proyectista " << nombre << " esta creando disenos.\n";
+        cout << "El proyectista " << nombre << " esta creando proyectos.\n";
     }
 };
 int main() {
