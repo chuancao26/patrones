@@ -4,14 +4,18 @@
 using namespace std;
 int main()
 {
-	Multiton* a = Multiton::getInstance("Instancia1",6);
-	Multiton* b = Multiton::getInstance("Instancia2",6);
-	Multiton* d = Multiton::getInstance("Instancia3",6);
-	Multiton* e = Multiton::getInstance("Instancia4",6);
-	Multiton* f = Multiton::getInstance("Instancia5",6);
-	Multiton* c = Multiton::getInstance("Instancia6",6);
-	Multiton* g = Multiton::getInstance("Instancia7",6);
-	if (!g)cout << "No existe" << endl;
-	cout << *a << *b << *c;
-	return 0;
+    Snake* snake1 = SnakeManager::getInstance("Fire");
+    Snake* snake2 = SnakeManager::getInstance("Electric");
+    Snake* snake3 = SnakeManager::getInstance("Water");
+	Snake* snake4 = SnakeManager::getInstance("Water");
+    cout << snake1->getName() << endl;
+    cout << snake2->getName() << endl;
+    cout << snake3->getName() << endl;
+	cout << snake4->getName() << endl;
+    snake1->attack();
+    snake2->attack(); 
+	snake3->attack(); 
+	snake4->attack(); 
+	if (snake3 == snake4) cout << "El puntero de ambos apunta a la unica instancia de WaterSnake activa" << endl;
+    return 0;
 }

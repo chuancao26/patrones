@@ -1,34 +1,44 @@
-#define SINGLETON_H
-#ifdef SINGLETON_H 
+#define GAMEMANAGER_H
+#ifdef GAMEMANAGER_H 
 #include <iostream>
 using namespace std;
-class Singleton
+class GameManager
 {
-    private:
-        static Singleton* instance;
-        string name;
-        Singleton(string name_){name = name_;}
-        friend ostream& operator<<(ostream& output, const Singleton& a)
+private:
+    static GameManager* instance;
+    string gameName;
+    GameManager(const string& name)
+    {
+        gameName = name;
+    }
+    GameManager(const GameManager&) = delete;
+    GameManager operator=(const GameManager&) = delete;
+    ~GameManager()
+    {
+        delete instance;
+    }
+    
+public:
+    static GameManager* getInstance(const string& name)
+    {
+        if (!instance)
         {
-            output << a.name << endl;
-            
-            return output;
+            instance = new GameManager(name);
         }
-        Singleton(const Singleton&) = delete;
-        Singleton& operator=(const Singleton&) = delete;
-        ~Singleton()
-        {
-            delete instance;
-        }
-    public:
-        static Singleton* getInstance(string name_)
-        {
-            if(!instance)
-            {
-                instance = new Singleton(name_);
-            }
-            return instance;
-        }
+        return instance;
+    }
+    void playGame()
+    {
+        cout << "Playing " << gameName << endl;
+    }
+    void setGameName(const string& name)
+    {
+        gameName = name;
+    }
+    string getGameName() const
+    {
+        return gameName;
+    }
 };
-Singleton* Singleton::instance = nullptr;
+GameManager* GameManager::instance = nullptr;
 #endif
