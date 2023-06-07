@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 
 using namespace std;
 
@@ -14,49 +13,41 @@ public:
     }
 
     void Volar() {
-        // Lógica para volar
         cout << "Ave volando" << endl;
     }
 };
 
 class ObjectPool {
 private:
-    vector<Ave*> avesDisponibles;
-    vector<Ave*> avesEnUso;
+    Ave* avesDisponibles;
+    int maxSize;
+    int currentIndex;
 
 public:
     ObjectPool(int size) {
-        for (int i = 0; i < size; i++) {
-            avesDisponibles.push_back(new Ave());
-        }
+        avesDisponibles = new Ave[size];
+        maxSize = size;
+        currentIndex = 0;
     }
 
     ~ObjectPool() {
-        for (auto ave : avesDisponibles) {
-            delete ave;
-        }
-        for (auto ave : avesEnUso) {
-            delete ave;
-        }
+        delete[] avesDisponibles;
     }
 
     Ave* ObtenerAve() {
-        if (avesDisponibles.empty()) {
+        if (currentIndex < maxSize) {
+            Ave* ave = &avesDisponibles[currentIndex];
+            currentIndex++;
+            return ave;
+        } else {
             return nullptr;
         }
-        Ave* ave = avesDisponibles.back();
-        avesDisponibles.pop_back();
-        avesEnUso.push_back(ave);
-        return ave;
     }
 
     void LiberarAve(Ave* ave) {
-        for (int i = 0; i < avesEnUso.size(); i++) {
-            if (avesEnUso[i] == ave) {
-                avesEnUso.erase(avesEnUso.begin() + i);
-                avesDisponibles.push_back(ave);
-                break;
-            }
+        if (currentIndex > 0 && currentIndex <= maxSize) {
+            currentIndex--;
+            avesDisponibles[currentIndex] = *ave;
         }
     }
 };
@@ -65,7 +56,6 @@ int main() {
     int tamanoMaximo = 5;
     ObjectPool pool(tamanoMaximo);
 
-    // Simulación del juego
     for (int i = 0; i < 8; i++) {
         Ave* ave = pool.ObtenerAve();
         if (ave != nullptr) {
