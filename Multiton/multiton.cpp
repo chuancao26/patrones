@@ -11,6 +11,7 @@ int main()
 	Multiton* f = Multiton::getInstance("Instancia5",6);
 	Multiton* c = Multiton::getInstance("Instancia6",6);
 	Multiton* g = Multiton::getInstance("Instancia7",6);
+	if (!g)cout << "No existe" << endl;
 	cout << *a << *b << *c;
 	return 0;
 }
